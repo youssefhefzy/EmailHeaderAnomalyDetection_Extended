@@ -1,0 +1,35 @@
+{
+  "email_id": "email_0858",
+  "headers": {
+    "date": "Fri, 19 Jul 2002 17:11:00 -0400",
+    "message_id": "<200207192202.GAA26181@public.anshan.cngb.com>"
+  },
+  "header_features": {
+    "has_message_id": 1,
+    "has_date": 1,
+    "has_from": 1,
+    "has_to": 1,
+    "has_subject": 1,
+    "has_content_type": 1,
+    "has_mime_version": 1,
+    "has_reply_to": 0,
+    "has_x_mailer": 1,
+    "has_x_originating_ip": 0,
+    "subject_len": 22,
+    "n_received_hops": 5,
+    "is_base64_encoded": 0,
+    "malformed_date": 0,
+    "mid_malformed": 0,
+    "has_x_priority": 0,
+    "spf_result": 0,
+    "dkim_result": 0,
+    "dmarc_result": 0,
+    "dkim_signature_present": 0,
+    "dkim_signature_valid_format": 0,
+    "auth_results_present": 0,
+    "all_auth_pass": 0,
+    "any_auth_fail": 0
+  },
+  "body_text": "",
+  "attachments": []
+}

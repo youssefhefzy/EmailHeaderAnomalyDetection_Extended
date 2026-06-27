@@ -2,21 +2,12 @@
 __pycache__/
 *.py[cod]
 .venv/
-*.joblib
 
-# Data (too large for GitHub)
+# Raw emails (privacy + size)
 data/raw/
-data/processed/
-json_outputs/
-dataset A/
-
-# Results
-results/
-
-# IDE
-.vscode/
-.idea/
 
 # OS
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
