@@ -1,0 +1,92 @@
+# ============================================================
+# EmailHeaderAnomalyDetection_Extended — Configuration
+# ============================================================
+
+# ── Reproducibility ─────────────────────────────────────────
+random_state: 42
+
+# ── Cross-validation ─────────────────────────────────────────
+cv_folds: 10
+test_size: 0.2          # used when cv_folds is None
+
+# ── Models to train ──────────────────────────────────────────
+# Comment out any you wish to skip.
+models:
+  - RF          # Random Forest
+  - SVM         # Support Vector Machine (Platt-calibrated)
+  - MLP         # Multi-Layer Perceptron
+  - KNN         # K-Nearest Neighbours
+  - Stacking    # Stacked Ensemble (RF+MLP+KNN → LR meta)
+  - OC_SVM      # One-Class SVM (anomaly detection)
+
+# ── Feature groups to evaluate ───────────────────────────────
+feature_groups:
+  - G1   # Presence/absence of key headers
+  - G2   # Domain matching fields
+  - G3   # Routing anomalies
+  - G4   # Structural irregularities
+  - G5   # Authentication results (SPF/DKIM/DMARC)
+  - G6   # Top-30 permutation-importance features (baseline)
+  - G7   # G2 + G3 + G5 combined
+  - G8   # Top-5 features from G6 (fastest inference)
+
+# ── Model hyperparameters ────────────────────────────────────
+hyperparameters:
+  RF:
+    n_estimators: 100
+    max_depth: null
+    n_jobs: 1
+  SVM:
+    C: 1.0
+    kernel: rbf
+    probability: false       # We wrap with CalibratedClassifierCV
+    calibration_method: sigmoid
+    calibration_cv: 5
+  MLP:
+    hidden_layer_sizes: [100, 50]
+    max_iter: 300
+    early_stopping: true
+    random_state: 42
+  KNN:
+    n_neighbors: 5
+    n_jobs: 1
+  Stacking:
+    base_estimators:         # names must match `models` above
+      - RF
+      - MLP
+      - KNN
+    meta_classifier: LR      # Logistic Regression
+    passthrough: false
+  OC_SVM:
+    nu: 0.1
+    kernel: rbf
+
+# ── Confidence / calibration ─────────────────────────────────
+confidence:
+  ece_n_bins: 10             # bins for ECE and reliability diagram
+  brier_score: true
+  reliability_diagram: true
+
+# ── Paths ────────────────────────────────────────────────────
+paths:
+  data_raw: data/raw
+  data_processed: data/processed
+  results: results
+  figures: results/figures
+  baseline: results/original_baseline/baseline.csv
+
+# ── Original-paper baseline values (Table VII) ───────────────
+# Used by compare_results.py to draw reference lines.
+original_results:
+  dataset_A:
+    RF:       {accuracy: 0.998, f1: 0.998}
+    SVM:      {accuracy: 0.991, f1: 0.991}
+    MLP:      {accuracy: 0.989, f1: 0.988}
+    KNN:      {accuracy: 0.985, f1: 0.984}
+    Stacking: {accuracy: 0.997, f1: 0.997}
+  dataset_B:
+    RF:       {accuracy: 0.962, f1: 0.959}
+    SVM:      {accuracy: 0.947, f1: 0.943}
+    MLP:      {accuracy: 0.951, f1: 0.948}
+    KNN:      {accuracy: 0.938, f1: 0.935}
+    Stacking: {accuracy: 0.960, f1: 0.957}

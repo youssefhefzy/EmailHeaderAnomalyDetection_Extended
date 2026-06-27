@@ -1,0 +1,22 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.joblib
+
+# Data (too large for GitHub)
+data/raw/
+data/processed/
+json_outputs/
+dataset A/
+
+# Results
+results/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
